@@ -1,0 +1,3 @@
+Triangle plots  showing the relative proportion of barcodes in granulocytes (Gr), B cells (B) and CD4+ T cells (CD4T). Each dot within the triangle represents a distinct barcode. The distance of a dot to the three vertices of the triangle is inversely correlated with the relative abundance of the barcode within the particular cell populations. For example, if a barcode is only found in one cell population, the dot is plotted at the corresponding vertex; if a barcode appears equally in all three populations, the dot is plotted in the middle of the triangle. Please see  attached excel sheet "bar.csv"" for the data. Barcodes from seven mice are plotted in one triangle. The barcodes from each mouse are represented by a particular shape. 
+
+
