@@ -1,24 +1,23 @@
-###data
-tdata<-t(data)
-rownames(tdata)<-c("Musa","Musa","Musa","Musa","Sol","Sol","Sol")
+###data. 
+data<-CAZymesdata
 ###Y levels create factors
-Y=as.factor(row.names(tdata))
+Y <- factor(c("Musa","Musa","Musa","Sol","Musa","Sol","Sol"))
 ###unsupervised clustering
-pca.res = pca(tdata1, ncomp = 4, logratio = 'ILR')
+pca.res = pca(data, ncomp = 4, logratio = 'ILR')
 plot(pca.res)
 ###plot first component
 plotIndiv(pca.res,  comp = c(1,2),ind.names = T, group = Y, col.per.group = color.mixo(1:2), legend = TRUE)
 
 ###Supervised analysis and selection of discriminant variables with sPLS-DA
 ###To choose the number of components for sPLS-DA
-host.plsda <- plsda(X = tdata, Y, ncomp = 2)
+host.plsda <- plsda(X = data, Y, ncomp = 2)
 host.perf.plsda <- perf(host.plsda, validation = 'Mfold', folds = 5,progressBar = FALSE, nrepeat = 10)
 plot(host.perf.plsda, overlay = 'measure', sd=TRUE)
 
 ###First two components
 plotIndiv(host.plsda , comp = c(1,2), group = Y, ind.names = FALSE,ellipse = TRUE, legend = TRUE, title = 'Host-specificity, PLSDA comp 1 - 2')
 
-splsda.tune = tune.splsda(tdata, 
+splsda.tune = tune.splsda(data, 
                           Y = Y, 
                           ncomp = 2, 
                           multilevel = NULL, 
@@ -40,16 +39,14 @@ choice.keepX = c(20, 20) # optimal keepX values according to the tuning criterio
 
 choice.ncomp = length(choice.keepX) # the number of components
 
-rownames(tdata)<-c("P.eum","P.mus","P.fij","M.moz","C.ful","P.ful","P.ege")
-
 # The sPLS-DA
-res.splsda = splsda(X = tdata1, Y = Y, ncomp = choice.ncomp,keepX = choice.keepX)
+res.splsda = splsda(X = data, Y = Y, ncomp = choice.ncomp,keepX = choice.keepX)
 
 
 ###Plots for component 1 & 2
 plotIndiv(res.splsda, ind.names = F, col.per.group = color.mixo(1:2), comp = c(1,2),  pch = 16, ellipse = TRUE, legend = TRUE)
 
-###selected variables
+###Selected variables
 selectVar(res.splsda, comp = 1)$value
 cim(res.splsda, comp = 1, row.sideColors = color.mixo(Y))
 plotLoadings(res.splsda, comp = 1, method = 'mean', contrib = 'max')
